@@ -1,4 +1,7 @@
 node_modules/
-data/
-*.log
-.DS_Store
+.next/
+data/*.db
+data/*.db-*
+*.tsbuildinfo
+.env*.local
+.eslintcache

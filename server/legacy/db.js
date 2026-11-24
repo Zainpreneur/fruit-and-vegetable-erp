@@ -4,13 +4,14 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const DATA_DIR = path.join(__dirname, '..', 'data');
+const DATA_DIR = process.env.GB_DATA_DIR || path.join(__dirname, '..', '..', 'data');
 fs.mkdirSync(DATA_DIR, { recursive: true });
 
-export const DB_PATH = path.join(DATA_DIR, 'store.db');
+export const DB_PATH = process.env.GB_DB_PATH || path.join(DATA_DIR, 'store.db');
 export const db = new DatabaseSync(DB_PATH);
 
 db.exec('PRAGMA foreign_keys = ON;');
+db.exec('PRAGMA busy_timeout = 10000;');
 
 db.exec(`
 CREATE TABLE IF NOT EXISTS settings (
